@@ -12,6 +12,29 @@ let screen: number[][] = [
                          , [1, 1, 1, 1, 1, 2, 2, 1]
                          ];
 
+export function main(point: { [key: string]: number }, color: number): void {
+  floodfill(point, color);
+}
+
+function floodfill(point: { [key: string]: number }, newColor: number): void {
+  const previousColor: number = screen[point.x][point.y];
+  fullfill(point, previousColor, newColor);
+}
+
+function fullfill(point: { [key: string]: number }, previousColor: number, newColor: number): void {
+  if (point.x < 0 || screen.length <= point.x || point.y < 0 || screen[point.x].length <= point.y) {
+    return;
+  }
+
+  if (screen[point.x][point.y] !== previousColor) {
+    return;
+  }
+
+  screen[point.x][point.y] = newColor;
+
+  aroundFill(point, previousColor, newColor);
+}
+
 function aroundFill(point: { [key: string]: number }, previousColor: number, newColor: number): void {
   const originX: number = point.x;
   const originY: number = point.y;
@@ -33,29 +56,7 @@ function aroundFill(point: { [key: string]: number }, previousColor: number, new
   fullfill(point, previousColor, newColor);
 }
 
-function fullfill(point: { [key: string]: number }, previousColor: number, newColor: number): void {
-  if (point.x < 0 || screen.length <= point.x || point.y < 0 || screen[point.x].length <= point.y) {
-    return;
-  }
-
-  if (screen[point.x][point.y] !== previousColor) {
-    return;
-  }
-
-  screen[point.x][point.y] = newColor;
-
-  aroundFill(point, previousColor, newColor);
-}
-
-function floodfill(point: { [key: string]: number }, newColor: number): void {
-  const previousColor: number = screen[point.x][point.y];
-  fullfill(point, previousColor, newColor);
-}
-
-export function main(point: { [key: string]: number }, color: number): void {
-  floodfill(point, color);
-}
-
+// testing codes.
 console.log(screen);
 console.log('----- filling new color... -----');
 
